@@ -1,1 +1,1 @@
-"# wsb_jpa" 
+WSB_JPA projekt na zaliczenie.
