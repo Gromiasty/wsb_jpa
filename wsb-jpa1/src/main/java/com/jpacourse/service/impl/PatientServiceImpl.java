@@ -4,6 +4,7 @@ import com.jpacourse.dto.PatientTO;
 import com.jpacourse.mapper.AddressMapper;
 import com.jpacourse.mapper.PatientMapper;
 import com.jpacourse.persistence.dao.PatientDao;
+import com.jpacourse.persistence.dao.VisitDao;
 import com.jpacourse.persistence.entity.PatientEntity;
 import com.jpacourse.persistence.entity.VisitEntity;
 import com.jpacourse.service.PatientService;
@@ -82,4 +83,11 @@ public class PatientServiceImpl implements PatientService {
         // Kaskadowe zapisanie pacjenta (update)
         patientDao.save(patient);
     }
+
+    @Override
+    public List<VisitEntity> findAllPatientVisitsById(Long patientId) {
+        return patientDao.findOne(patientId).getVisits();  // Fixed: Removed unnecessary getId() call
+    }
+
+    
 }

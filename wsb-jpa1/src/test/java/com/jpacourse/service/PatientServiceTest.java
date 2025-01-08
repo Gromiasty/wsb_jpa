@@ -8,6 +8,7 @@ import com.jpacourse.persistence.entity.*;
 import com.jpacourse.persistence.enums.TreatmentType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
@@ -172,4 +173,22 @@ public class PatientServiceTest {
             assertThat(visit.getVisitTime()).isNotNull().describedAs("Visit date should not be null");
         });
     }
+
+    @Test
+    public void testFindAllPatientVisitsById() {
+    Long patientId = 1L;
+    System.out.println("[TEST] findAllPatientVisitsById for patient with ID: " + patientId);
+
+    // Function
+    List<VisitEntity> visits = patientService.findAllPatientVisitsById(patientId);
+    
+    // Fetching visit list
+    assertThat(visits).isNotNull().describedAs("Visit list should not be null");
+    assertThat(visits).isNotEmpty().describedAs("Patient should have at least one visit");
+
+
+    // Verifying result
+    assertThat(visits).isNotEmpty();
+    assertThat(visits.get(0).getPatient().getId()).isEqualTo(patientId);
+    }   
 }
