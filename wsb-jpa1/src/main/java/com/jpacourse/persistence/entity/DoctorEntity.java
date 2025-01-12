@@ -38,7 +38,7 @@ public class DoctorEntity {
      * The address is required, so the {@code nullable} attribute is set to {@code false}.
      */
     @ManyToOne
-    @JoinColumn(name = "address_id", nullable = false)
+    @JoinColumn(name = "address_id", nullable = true)
     private AddressEntity address;
 
     // Getters and Setters

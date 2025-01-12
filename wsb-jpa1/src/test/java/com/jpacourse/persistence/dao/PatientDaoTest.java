@@ -1,8 +1,12 @@
 package com.jpacourse.persistence.dao;
 
 import com.jpacourse.persistence.entity.AddressEntity;
+import com.jpacourse.persistence.entity.DoctorEntity;
 import com.jpacourse.persistence.entity.PatientEntity;
 import com.jpacourse.persistence.entity.VisitEntity;
+import com.jpacourse.persistence.enums.Specialization;
+
+import org.apache.tomcat.jni.Address;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,6 +35,9 @@ public class PatientDaoTest {
 
     @Autowired
     private AddressDao addressDao;
+
+    @Autowired
+    private DoctorDao doctorDao;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -101,55 +108,120 @@ public class PatientDaoTest {
     @Test
     @Transactional
     public void findByLastNameTest() {
-        // Setup
-        String lastName = "Smith";  // Assuming patient with this last name was added in @Before
+        
+        // Creating new Patient
+        PatientEntity testPatient = new PatientEntity();
+        testPatient.setFirstName("Carl");
+        testPatient.setLastName("xyz");
+        testPatient.setTelephoneNumber("123456789");
+        testPatient.setEmail("carl.xyz@example.com");
+        testPatient.setPatientNumber("P555");
+        testPatient.setDateOfBirth(LocalDate.of(1980, 1, 1));
+        testPatient.setAge(35);
+        patientDao.save(testPatient);
+        
+        // Finding by last name
+        List<PatientEntity> testPatients = patientDao.findByLastName("xyz");
 
-        // Act
-        List<PatientEntity> patients = patientDao.findByLastName(lastName);
-
-        // Debug - Print patient data in database
-        System.out.println("Patients in database:");
-        patients.forEach(patient ->
-                System.out.println("ID: " + patient.getId() + ", First Name: " + patient.getFirstName() + ", Last Name: " + patient.getLastName())
-        );
-
-        // Assert
-        assertNotNull(patients, "Patients list should not be null");
-        assertFalse(patients.isEmpty(), "Patients list should not be empty");
-
-        PatientEntity patient = patients.get(0);
-        assertEquals(lastName, patient.getLastName(), "Last name should match");
+        // Checking the results
+        assertThat(testPatients).hasSize(1);
+        assertThat(testPatients.get(0).getFirstName()).isEqualTo("Carl");
+        assertThat(testPatients.get(0).getLastName()).isEqualTo("xyz");
     }
 
     @Test
     @Transactional
     public void findByVisitsGreaterThanTest() {
-        // Value of visitCount to find patients
-        int visitCount = 1;
 
-        // Call DAO method
-        List<PatientEntity> patients = patientDao.findByVisitsGreaterThan(visitCount);
+        // Creating new Patients
+        PatientEntity testPatient1 = new PatientEntity();
+        testPatient1.setFirstName("Karol");
+        testPatient1.setLastName("Smith");
+        testPatient1.setTelephoneNumber("987654321");
+        testPatient1.setEmail("karol.smith@example.com");
+        testPatient1.setPatientNumber("PA12");
+        testPatient1.setDateOfBirth(LocalDate.of(2000, 6, 15));
+        testPatient1.setAge(24);
+        patientDao.save(testPatient1);
 
-        // Verify results
-        assertThat(patients).isNotEmpty(); // Ensure the result is not empty
-        patients.forEach(patient ->
-                assertThat(patient.getVisits().size()).isGreaterThan(visitCount)
-        ); // Each patient should have more than visitCount visits
+        PatientEntity testPatient2 = new PatientEntity();
+        testPatient2.setFirstName("Jane");
+        testPatient2.setLastName("Adams");
+        testPatient2.setTelephoneNumber("159753123");
+        testPatient2.setEmail("jane.adams@example.com");
+        testPatient2.setPatientNumber("PA34");
+        testPatient2.setDateOfBirth(LocalDate.of(1995, 4, 12));
+        testPatient2.setAge(29);
+        patientDao.save(testPatient2);
+
+        // Creating new doctor
+        DoctorEntity testDoc = new DoctorEntity();
+        testDoc.setFirstName("Maksymilian");
+        testDoc.setLastName("Nowak");
+        testDoc.setTelephoneNumber("789654857");
+        testDoc.setEmail("maksymilian.nowak@example.com");
+        testDoc.setDoctorNumber("DO99");
+        testDoc.setSpecialization(Specialization.SURGEON);
+        doctorDao.save(testDoc);
+
+        // Adding visits
+        patientDao.addVisit(testPatient1.getId(), testDoc.getId(), "Surgery", LocalDateTime.of(2024, 04, 01, 0, 0, 0, 0), 1L);
+        patientDao.addVisit(testPatient1.getId(), testDoc.getId(), "Consultation", LocalDateTime.of(2025, 01, 01, 0, 0, 0, 0), 2L);
+        patientDao.addVisit(testPatient1.getId(), testDoc.getId(), "Last visit", LocalDateTime.of(2025, 02, 01, 0, 0, 0, 0), 3L);
+        patientDao.addVisit(testPatient2.getId(), testDoc.getId(), "Consultation", LocalDateTime.of(2025, 02, 01, 0, 0, 0, 0), 4L);
+
+        // Finding patients with visits more than X visits
+        List<PatientEntity> testPatients = patientDao.findByVisitsGreaterThan(2);
+
+        // Checking the results
+        assertThat(testPatients).hasSize(1);
+        assertThat(testPatients.get(0).getFirstName()).isEqualTo("Karol");
+        assertThat(testPatients.get(0).getLastName()).isEqualTo("Smith");
     }
 
     @Test
     public void findByAgeGreaterThanTest() {
-        // Setup
-        Integer ageThreshold = 40; 
+        // Creating new Patients
+        PatientEntity testPatient1 = new PatientEntity();
+        testPatient1.setFirstName("Daniel");
+        testPatient1.setLastName("Kwiat");
+        testPatient1.setTelephoneNumber("102054305");
+        testPatient1.setEmail("daniel.kwiat@example.com");
+        testPatient1.setPatientNumber("P045");
+        testPatient1.setDateOfBirth(LocalDate.of(1924, 1, 1));
+        testPatient1.setAge(101);
+        patientDao.save(testPatient1);
 
-        // Act
-        List<PatientEntity> patients = patientDao.findByAgeGreaterThan(ageThreshold);
+        PatientEntity testPatient2 = new PatientEntity();
+        testPatient2.setFirstName("Kamila");
+        testPatient2.setLastName("Pietras");
+        testPatient2.setTelephoneNumber("987654321");
+        testPatient2.setEmail("kamila.pietras@example.com");
+        testPatient2.setPatientNumber("PA56");
+        testPatient2.setDateOfBirth(LocalDate.of(1923, 1, 2));
+        testPatient2.setAge(102);
+        patientDao.save(testPatient2);
 
-        // Assert
-        assertThat(patients).isNotEmpty();
-        patients.forEach(patient ->
-                assertThat(patient.getAge()).isGreaterThan(ageThreshold)
-        );
+        PatientEntity testPatient3 = new PatientEntity();
+        testPatient3.setFirstName("Kamila");
+        testPatient3.setLastName("Pietras");
+        testPatient3.setTelephoneNumber("159874562");
+        testPatient3.setEmail("kamila.pietras@example.com");
+        testPatient3.setPatientNumber("PA56");
+        testPatient3.setDateOfBirth(LocalDate.of(2000, 1, 2));
+        testPatient3.setAge(25);
+        patientDao.save(testPatient3);
+
+        // Finding patients with age more than X years
+        List<PatientEntity> testPatients = patientDao.findByAgeGreaterThan(100);
+
+        //Checking the results
+        assertThat(testPatients).hasSize(2);
+        assertThat(testPatients.get(0).getFirstName()).isEqualTo("Daniel");
+        assertThat(testPatients.get(0).getLastName()).isEqualTo("Kwiat");
+        assertThat(testPatients.get(1).getFirstName()).isEqualTo("Kamila");
+        assertThat(testPatients.get(1).getLastName()).isEqualTo("Pietras");
+
     }
 
     @Test
