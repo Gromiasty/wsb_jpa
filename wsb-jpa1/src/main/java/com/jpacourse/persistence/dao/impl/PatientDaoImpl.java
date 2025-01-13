@@ -42,22 +42,22 @@ public class PatientDaoImpl extends AbstractDao<PatientEntity, Long> implements 
 
     @Override
     public List<PatientEntity> findByLastName(String lastName) {
-        return entityManager.createQuery("SELECT p FROM PatientEntity p WHERE p.lastName = :lastName", PatientEntity.class)
-                .setParameter("lastName", lastName)
-                .getResultList();
+        return entityManager.createNamedQuery("PatientEntity.findByLastName", PatientEntity.class)
+        .setParameter("lastName", lastName)
+        .getResultList();
     }
 
     @Override
     public List<PatientEntity> findByVisitsGreaterThan(int visitCount) {
-        return entityManager.createQuery("SELECT p FROM PatientEntity p WHERE SIZE(p.visits) > :visitCount", PatientEntity.class)
-                .setParameter("visitCount", visitCount)
-                .getResultList();
+        return entityManager.createNamedQuery("PatientEntity.findByVisitsGreaterThan", PatientEntity.class)
+        .setParameter("visitCount", visitCount)
+        .getResultList();
     }
 
     @Override
     public List<PatientEntity> findByAgeGreaterThan(Integer age) {
-        return entityManager.createQuery("SELECT p FROM PatientEntity p WHERE p.age > :age", PatientEntity.class)
-                .setParameter("age", age)
-                .getResultList();
+        return entityManager.createNamedQuery("PatientEntity.findByAgeGreaterThan", PatientEntity.class)
+        .setParameter("age", age)
+        .getResultList();
     }
 }

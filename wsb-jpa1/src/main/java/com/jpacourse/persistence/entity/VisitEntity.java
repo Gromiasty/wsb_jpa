@@ -5,6 +5,10 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "VISIT")
+@NamedQuery(
+    name = "VisitEntity.findAllVisitsByPatientId",
+    query = "SELECT v FROM VisitEntity v WHERE v.patient.id = :patientId"
+)
 public class VisitEntity {
 
     @Id

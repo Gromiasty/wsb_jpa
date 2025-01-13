@@ -166,10 +166,13 @@ public class PatientDaoTest {
 
         // Adding visits
         patientDao.addVisit(testPatient1.getId(), testDoc.getId(), "Surgery", LocalDateTime.of(2024, 04, 01, 0, 0, 0, 0), 1L);
+        entityManager.flush();
         patientDao.addVisit(testPatient1.getId(), testDoc.getId(), "Consultation", LocalDateTime.of(2025, 01, 01, 0, 0, 0, 0), 2L);
+        entityManager.flush();
         patientDao.addVisit(testPatient1.getId(), testDoc.getId(), "Last visit", LocalDateTime.of(2025, 02, 01, 0, 0, 0, 0), 3L);
+        entityManager.flush();
         patientDao.addVisit(testPatient2.getId(), testDoc.getId(), "Consultation", LocalDateTime.of(2025, 02, 01, 0, 0, 0, 0), 4L);
-
+        entityManager.flush();
         // Finding patients with visits more than X visits
         List<PatientEntity> testPatients = patientDao.findByVisitsGreaterThan(2);
 

@@ -6,6 +6,20 @@ import java.util.List;
 
 @Entity
 @Table(name = "PATIENT")
+@NamedQueries({
+    @NamedQuery(
+        name = "PatientEntity.findByLastName", 
+        query = "SELECT p FROM PatientEntity p WHERE p.lastName = :lastName"
+    ),
+    @NamedQuery(
+        name = "PatientEntity.findByVisitsGreaterThan",
+    query = "SELECT p FROM PatientEntity p JOIN p.visits visit GROUP BY p HAVING COUNT(visit) >= :visitCount"
+    ),
+    @NamedQuery(
+        name = "PatientEntity.findByAgeGreaterThan",
+        query = "SELECT p FROM PatientEntity p WHERE p.age > :age"
+    )
+})
 public class PatientEntity {
 
     @Id
