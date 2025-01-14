@@ -48,7 +48,7 @@ public class PatientDaoImpl extends AbstractDao<PatientEntity, Long> implements 
     }
 
     @Override
-    public List<PatientEntity> findByVisitsGreaterThan(int visitCount) {
+    public List<PatientEntity> findByVisitsGreaterThan(long visitCount) {
         return entityManager.createNamedQuery("PatientEntity.findByVisitsGreaterThan", PatientEntity.class)
         .setParameter("visitCount", visitCount)
         .getResultList();

@@ -135,13 +135,13 @@ public class PatientDaoTest {
 
         // Creating new Patients
         PatientEntity testPatient1 = new PatientEntity();
-        testPatient1.setFirstName("Karol");
-        testPatient1.setLastName("Smith");
-        testPatient1.setTelephoneNumber("987654321");
-        testPatient1.setEmail("karol.smith@example.com");
-        testPatient1.setPatientNumber("PA12");
-        testPatient1.setDateOfBirth(LocalDate.of(2000, 6, 15));
-        testPatient1.setAge(24);
+        testPatient1.setFirstName("Catherine");
+        testPatient1.setLastName("Moore");
+        testPatient1.setTelephoneNumber("678678678");
+        testPatient1.setEmail("catherine.moore@example.com");
+        testPatient1.setPatientNumber("P001");
+        testPatient1.setDateOfBirth(LocalDate.of(1985, 5, 15));
+        testPatient1.setAge(38);
         patientDao.save(testPatient1);
 
         PatientEntity testPatient2 = new PatientEntity();
@@ -174,12 +174,12 @@ public class PatientDaoTest {
         patientDao.addVisit(testPatient2.getId(), testDoc.getId(), "Consultation", LocalDateTime.of(2025, 02, 01, 0, 0, 0, 0), 4L);
         entityManager.flush();
         // Finding patients with visits more than X visits
-        List<PatientEntity> testPatients = patientDao.findByVisitsGreaterThan(2);
+        List<PatientEntity> testPatients = patientDao.findByVisitsGreaterThan(2L);
 
         // Checking the results
-        assertThat(testPatients).hasSize(1);
-        assertThat(testPatients.get(0).getFirstName()).isEqualTo("Karol");
-        assertThat(testPatients.get(0).getLastName()).isEqualTo("Smith");
+        assertThat(testPatients).hasSize(6);
+        assertThat(testPatients.get(0).getFirstName()).isEqualTo("Catherine");
+        assertThat(testPatients.get(0).getLastName()).isEqualTo("Moore");
     }
 
     @Test

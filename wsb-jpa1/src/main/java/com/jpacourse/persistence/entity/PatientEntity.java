@@ -2,6 +2,8 @@ package com.jpacourse.persistence.entity;
 
 import java.time.LocalDate;
 import javax.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -75,7 +77,7 @@ public class PatientEntity {
      * The {@code orphanRemoval = true} option ensures that visits removed from the list are also deleted.
      */
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<VisitEntity> visits;
+    private List<VisitEntity> visits = new ArrayList<>();
 
     // Getters and Setters
     public Long getId() {

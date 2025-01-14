@@ -1,9 +1,6 @@
 package com.jpacourse.persistence.entity;
 
 import com.jpacourse.persistence.enums.TreatmentType;
-import com.jpacourse.persistence.entity.VisitEntity;
-
-
 import javax.persistence.*;
 import java.util.List;  // Import List
 import java.util.ArrayList;
