@@ -35,7 +35,7 @@ public class DoctorDaoImplTest {
     public void testFindPatientNamesByDoctorId() {
         Long doctorId = 1L;
         List<String> patientNames = doctorDao.findPatientNamesByDoctorId(doctorId);
-
+        patientNames.forEach(System.out::println);
         assertThat(patientNames).containsExactlyInAnyOrder("Catherine Moore", "Thomas Simmons", "Eve Baker");
     }
 }

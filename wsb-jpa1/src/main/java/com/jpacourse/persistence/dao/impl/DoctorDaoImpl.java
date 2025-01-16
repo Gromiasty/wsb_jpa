@@ -17,9 +17,8 @@ public class DoctorDaoImpl extends AbstractDao<DoctorEntity, Long> implements Do
 
     @Override
     public List<String> findPatientNamesByDoctorId(Long doctorId) {
-        String jpql = "SELECT DISTINCT CONCAT(p.firstName, ' ', p.lastName) FROM PatientEntity p JOIN p.visits v WHERE v.doctor.id = :doctorId";
-        TypedQuery<String> query = entityManager.createQuery(jpql, String.class);
-        query.setParameter("doctorId", doctorId);
-        return query.getResultList();
+        return entityManager.createNamedQuery("DoctorEntity.findPatientNamesByDoctorId", String.class)
+        .setParameter("doctorId", doctorId)
+        .getResultList();
     }
 }
