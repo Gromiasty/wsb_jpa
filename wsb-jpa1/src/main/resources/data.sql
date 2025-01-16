@@ -47,5 +47,5 @@ INSERT INTO VISIT (id, description, time, doctor_id, patient_id, treatment_id) V
 (11, 'Dermatology follow-up', '2025-01-11 14:00:00', 4, 2, 2),
 (12, 'Pediatric follow-up', '2025-01-12 15:00:00', 3, 2, 3),
 (13, 'Cardiology visit', '2025-01-13 13:30:00', 2, 5, 4),
-(14, 'Dental consultation', '2025-01-14 16:00:00', 5, 3, 5),
+(14, 'Dental consultation', '2025-01-14 16:00:00', 1, 3, 5),
 (15, 'Follow-up visit', '2025-01-15 17:00:00', 1, 4, 1);
