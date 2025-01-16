@@ -4,8 +4,13 @@ import com.jpacourse.persistence.enums.Specialization;
 
 import javax.persistence.*;
 
+
 @Entity
 @Table(name = "DOCTOR")
+@NamedQuery(
+        name = "DoctorEntity.findPatientNamesByDoctorId",
+        query = "SELECT DISTINCT p.name FROM PatientEntity p JOIN p.visits v WHERE v.doctor.id = :doctorId"
+    )
 public class DoctorEntity {
 
     @Id
