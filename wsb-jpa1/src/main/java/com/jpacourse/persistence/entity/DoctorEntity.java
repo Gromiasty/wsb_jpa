@@ -4,6 +4,7 @@ import com.jpacourse.persistence.enums.Specialization;
 
 import javax.persistence.*;
 
+
 @Entity
 @Table(name = "DOCTOR")
 @NamedQuery(
